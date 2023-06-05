@@ -169,7 +169,7 @@ y tuvieramos las siguientes viandas
 
 |codigo  |tipo       |aptoCeliaco|stock|descripcion              |
 |--------|-----------|---------- |-----|-------------------------|
-|VARTA   |TARTA      |false       |11   |TARTA JAMON Y QUESO                    |
+|VARTA   |TARTA      |false      |11   |TARTA JAMON Y QUESO      |
 |VPZAP   |PIZZA      |true       |0    |PIZZA APTO CELICO        |
 |VPZNA   |PIZZA      |false      |98   |PIZZA NO APTO CELIACO    |
 |VEMAP   |EMPANADAS  |true       |75   |EMPANADAS APTO CELIACO   |
@@ -240,7 +240,7 @@ Si se hicera el siguiente POST con este body
 ``` JSON
 {
     {
-        "dni": 39911147,
+        "dni": 34701204,
         "tipo": "PASTA"
     }
 }
