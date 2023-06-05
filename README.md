@@ -185,7 +185,7 @@ Si se hicera el siguiente POST con este body
 ``` JSON
 {
     {
-        "dni": 34701204,
+        "dni": 39911147,
         "tipo": "EMPANADAS"
     }
 }
