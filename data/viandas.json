@@ -1,10 +1,10 @@
 [
     {
-        "codigo": "VCARN",
-        "tipo": "CARNE",
-        "aptoCeliaco": true,
+        "codigo": "VARTA",
+        "tipo": "TARTA",
+        "aptoCeliaco": false,
         "stock": 11,
-        "descripcion": "CARNE"
+        "descripcion": "TARTA JAMON Y QUESO"
     },  
     {
         "codigo": "VPZAP",
