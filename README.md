@@ -160,9 +160,10 @@ Si tuvieramos los siguientes alumnos
 |dni     |Nombre     |habilitado|celiaco|edad|
 |--------|-----------|----------|-------|----|
 |39911147|FLORENCIA  |true      |false  |23  |
-|37535032|CHRISTIAN  |false     |false  |24  |
+|37535032|CHRISTIAN  |true      |true   |24  |
 |33199201|ROMINA     |false     |true   |28  |
 |34701204|JUAN       |true      |true   |27  |
+
 
 
 y tuvieramos las siguientes viandas 
@@ -297,7 +298,7 @@ Si se hicera el siguiente POST con este body
 ``` JSON
 {
     {
-        "dni": 37535032,
+        "dni": 33199201,
         "tipo": "EMPANADAS"
     }
 }

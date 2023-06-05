@@ -9,8 +9,8 @@
     {
         "dni": 37535032,
         "nombre": "CHRISTIAN",
-        "habilitado": false,
-        "celiaco": false,
+        "habilitado": true,
+        "celiaco": true,
         "edad": 28
     },
     {
