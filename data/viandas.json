@@ -52,7 +52,7 @@
         "codigo": "VPANP",
         "tipo": "PASTA",
         "aptoCeliaco": false,
-        "stock": 14,
+        "stock": 0,
         "descripcion": "PASTA NO APTO CELIACO"
     }
 ]
