@@ -2,21 +2,21 @@
 
 ## Parcial 05.Junio.2023
 
-Se le solicita a los alumnos del laboratorio de programación y lenguajes de la UNPAZ que realicen el desarrollo de la siguiente api que le perminte gestionar a la universidad la solicitud de viandas en las distittas sedes.
+Se les solicita a los alumnos del laboratorio de programación y lenguajes de la UNPAZ que realicen el desarrollo de la siguiente api que le permitirá gestionar a la universidad la solicitud de viandas en las distintas sedes.
 
 * pedidos (/api/pedidos) 
 * viandas (/api/viandas)
 * alumnos (/api/alumnos)
 
-Los tres recursos trabajan en conjunto y permiten a la universidad gestionar correctamente las solicitudes de viandas que serán otorgadas a los alumnos que generen los pedidos.
+Los tres recursos trabajan en conjunto y permiten a la universidad gestionar correctamente los pedidos de viandas que serán generados por los alumnos.
 
-Un alumno podrá generar un pedido de una vianda siempre y cuando se encuentre habilitado para hacerlo, y el sistema le asignará la primer vianda que tenga stock disponible y que además se ajuste al pedido del alumno 
+Un alumno podrá generar un pedido de una vianda siempre y cuando se encuentre habilitado para hacerlo. El sistema le asignará la primer vianda que tenga stock disponible y que además se ajuste a las condiciones del  del alumno.
 
 - [x] el alumno se debe encontrar habiltiado para realizar el pedido
-- [x] la vianda se debe ajustar al tipo solicitado, también debe ajustarse a la condición del alumno si es celiaco o no y tiene que tener stock disponible (stock > 0)
-- [x] si la vianda es asignada al alumno deben ocurrir dos cosas
+- [x] la vianda se debe ajustar al tipo solicitado **TARTA, POLLO, PASTA, PIZZA, EMPANADAS**, y también debe ajustarse a la condición del alumno **si es celiaco o no** y tiene que tener stock disponible **(stock > 0)**
+- [x] si pedido es correcto y  es asignado al alumno, deben ocurrir dos cosas adicionales:
 - 1. El stock de la vianda debe disminuir en 1 unidad.
-- 2. El alumno debe pasar a estar deshabilitado para pedir vianda
+- 2. El alumno debe pasar a estar deshabilitado para impedir que pueda solcitar otra vianda.
 
 
 ## Consideraciones Generales
@@ -27,13 +27,14 @@ Toda la información deberá gestionarse en memoria, es recomendable utilizar la
 
 La entrega deberá ser en un repositorio de [github](https://github.com) donde el README.md deberá al menos incluir el nombre, apellido y dni del alumno, y escribir todas las cosas que asumieron para resolver el ejercicio o consideraciones que crean conveniente realizar.
 
-### Alumnos
 
-Realizar el endpoint **/api/alumos** que permita realizar la consulta total de los alumnos, más la creación, borrado,  modificacion y consulta de un alumno en particular a través de su número de dni.
+## Alumnos
+
+Realizar el endpoint **/api/alumnos** para consultar el total de los alumnos, más la creación, borrado,  modificación, y la consulta de un alumno en particular a través de su número de dni.
 
 * _GET_ **/api/alumnos** - Recupera el array de alumnos.
 * _GET_ **/api/alumnos/:dni** - Recupera el alumno a través del dni que es pasado en el path de la URL como parámetro.
-* _PUT_ **/api/alumnos/:dni** - Permite la modificación de solo los atributos **_habilitado, celiaco y edad** del alumno con el dni que es pasado en el path de la URL como parámetro.
+* _PUT_ **/api/alumnos/:dni** - Permite la modificación de solo los atributos **_habilitado, celiaco y edad_** del alumno con el dni que es pasado en el path de la URL como parámetro.
 * _POST_ **/api/alumno** - Registra un nuevo alumno.
 
 En la registración de un nuevo alumnos _POST_ **/api/alumnos** hay que considerar:
@@ -55,20 +56,21 @@ En la registración de un nuevo alumnos _POST_ **/api/alumnos** hay que consider
     }
 
 ```
-### Viandas
 
-Realizar el endpoint **/api/viandas** que permita realizar la consulta total de las viandas, más la creación y modificacion y consulta de una vianda en particular a través de su código.
+## Viandas
+
+Realizar el endpoint **/api/viandas** que permita consultar el total de las viandas, más la creación y modificación y consulta de una vianda en particular a través de su código.
 
 * _GET_ **/api/viandas** - Recupera el array de viandas.
 * _GET_ **/api/viandas/:codigo** - Recupera la vianda a través del código que es pasado en el path de la URL como parámetro.
-* _PUT_ **/api/viandas/:codigo** - Permite la modificación del atributo **aptoCeliaco y stock** de la vianda con el código que es pasado en el path de la URL como parámetro.
+* _PUT_ **/api/viandas/:codigo** - Permite la modificación unicamente de los atributos **aptoCeliaco y stock** de la vianda por medio del código que es pasado en el path de la URL como parámetro.
 * _POST_ **/api/vianda** - Registra una nueva vianda,
 
 En la registración de una nueva vianda _POST_ **/api/viandas** hay que considerar:
-1. El código de vianda es un string de 5 caracteres y siempre de comenzar con la letra 'V'.
+1. El código de vianda es un string de 5 caracteres y siempre debe comenzar con la letra 'V'.
 2. Validar que la vianda no se encuentre registrada previamente. La comprobación se debé realizar por el atributo código.
-3. El tipo de vianda solo puede ser uno de los valores disponibles. Los valores disponibles son: CARNE, POLLO, PASTA, PIZZA, EMPANADAS
-4. El **stock** debe ser siempre mayor a 0.
+3. El tipo de vianda solo puede ser uno de los valores disponibles. Los valores disponibles son: TARTA, POLLO, PASTA, PIZZA, EMPANADAS. Si se envía otro valor deberá retornarse **bad request**
+4. El **stock** debe ser siempre mayor o igual a 0.
 
 
 ### Estructura del vianda
@@ -96,16 +98,16 @@ En la registración de un nuevo pedido _POST_ **/api/pedido** hay que considerar
 
 1. el id (identeficador único del pedido) lo deberá calcular el sistema siguiendo una secuencia incremental.
 2. Registrar la fecha del pedido lo deberá calcular el sistema tomando la fecha actual. Ayuda: ```new Date().toISOString().slice(0, 10)```
-3. En el body se recibe el dni de alumno y se regista todos los atributos del alumnos.
-4. el el body se recibé el tipo de vianda y el sistema asigna la vianda que corresponde 
+3. En el body se recibe el dni de alumno y en al respuesta se retornan todo los atributos del alumno menos el atributo **habiltiado**.
+4. el el body se recibé el tipo  de vianda **TARTA, POLLO, PASTA, PIZZA, EMPANADAS**, el sistema asigna la vianda que satisface las condiciones y ser retorna todos los atributos de la vianda menos el atributo **stock**
 
 
 ## Lógica que debe implementar la creación de un pedido
 - [x] el alumno se debe encontrar habiltiado para realizar el pedido
-- [x] la vianda se debe ajustar al tipo solicitado, también debe ajustarse a la condición del alumno si es celiaco o no y tiene que tener stock disponible (stock > 0)
-- [x] si la vianda es asignada al alumno deben ocurrir dos cosas
+- [x] la vianda se debe ajustar al tipo solicitado **TARTA, POLLO, PASTA, PIZZA, EMPANADAS**, y también debe ajustarse a la condición del alumno **si es celiaco o no** y tiene que tener stock disponible **(stock > 0)**
+- [x] si pedido es correcto y  es asignado al alumno, deben ocurrir dos cosas adicionales:
 - 1. El stock de la vianda debe disminuir en 1 unidad.
-- 2. El alumno debe pasar a estar deshabilitado para pedir vianda
+- 2. El alumno debe pasar a estar deshabilitado para impedir que pueda solcitar otra vianda.
 
 ### Estructura del body para la creación de un pedido
 ``` JSON
@@ -141,12 +143,12 @@ La vianda deberá registrarse de acuerdo a las conidciones que fueron detalladas
 
 Adicionalmente también se deberá poder buscar el último pedido realizado por nombre del alumnos
 
-* GET **/api/pedidos/search?nombre=XXXX** - Recupera la ultima el último pedido que realizo el alumno. En caso de no encontrar reservas deberá retornar "No encontrado"
+* _GET_ **/api/pedidos/search?nombre=XXXX** - Recupera la ultima el último pedido que realizo el alumno. En caso de no encontrar reservas deberá retornar "No encontrado"
 
 * _DELETE_ **/api/pedidos/:id** - Borra el pedido con el id pasado en el path de la URL como parámetro. Incrementa en una unidad la viana del pedido y pone habilitado a alumno.
 
 
-## Ejemplos de la creación de un peddio
+## Ejemplos de la creación de un pedido
 
 Si tuvieramos los siguientes alumnos
 
@@ -162,7 +164,7 @@ y tuvieramos las siguientes viandas
 
 |codigo  |tipo       |aptoCeliaco|stock|descripcion              |
 |--------|-----------|---------- |-----|-------------------------|
-|VCARN   |CARNE      |true       |11   |CARNE                    |
+|VARTA   |TARTA      |false       |11   |TARTA JAMON Y QUESO                    |
 |VPZAP   |PIZZA      |true       |0    |PIZZA APTO CELICO        |
 |VPZNA   |PIZZA      |false      |98   |PIZZA NO APTO CELIACO    |
 |VEMAP   |EMPANADAS  |true       |75   |EMPANADAS APTO CELIACO   |
@@ -178,7 +180,7 @@ Si se hicera el siguiente POST con este body
 {
     {
         "dni": 34701204,
-        "tipo": "VENOP"
+        "tipo": "EMPANADAS"
     }
 }
 ```
@@ -201,7 +203,9 @@ El resultado el resultado sería el siguiente
         }
     }
 ```
-El alunno se encuentra habilitado y no es celiaco, y pidio un codigo de vianda que no es apto para celiacos y que tiene stock. Y además luego de registrar el pedido el alumno debe quedar con **"habilitado": false** y la vianda con una undad menos
+El alunno se encuentra **habilitado**, **NO es celiaco** y pidio el tipo de vianda de **EMPANADAS**.  
+
+El sistma le asigno la vianda con código **VENOP** porque tiene stock de empanadas que no se para celiacos. Y además luego de registrar el pedido el alumno debe quedar con **habilitado=false** y la vianda con una undad menos
 
 #### Alumno con el estado cambiado
 consultando **_GET /api/alumnos/39911147_**
@@ -232,7 +236,7 @@ Si se hicera el siguiente POST con este body
 {
     {
         "dni": 39911147,
-        "tipo": "VPAAP"
+        "tipo": "PASTA"
     }
 }
 ```
@@ -255,7 +259,9 @@ El resultado el resultado sería el siguiente
         }
     }
 ```
-El alunno se encuentra habilitado, **es celiaco** y pidio un codigo de vianda que no **apto para celiacos** y que **tiene stock** . Y además luego de registrar el pedido el alumno debe quedar con **"habilitado": false** y la vianda con una undad menos
+El alunno se encuentra **habilitado**, **es celiaco** y pidio el tipo de viada **PASTA**. 
+
+El sistema le pudo asignar el código de vianda **VPAAP** que **ES apto para celiacos** y que **tiene stock** . Y además luego de registrar el pedido el alumno debe quedar con **habilitado= false** y la vianda con una undad menos
 
 #### Alumno con el estado cambiado
 consultando **_GET /api/alumnos/34701204_**
@@ -287,11 +293,11 @@ Si se hicera el siguiente POST con este body
 {
     {
         "dni": 37535032,
-        "tipo": "VENOP"
+        "tipo": "EMPANADAS"
     }
 }
 ```
-Debería dar un **bad request** porque el alumno no se encuentra habilitado para realizar el pedido de vianda
+Debería dar un **bad request** porque el alumno no se encuentra habilitado para realizar el pedido de vianda. El mensaje debería ser "ALUMNO NO habilitado"
 
 ### Ejemplo 4
 
@@ -300,12 +306,12 @@ Si se hicera el siguiente POST con este body
 {
     {
         "dni": 37535032,
-        "tipo": "VPZNA"
+        "tipo": "PIZZA"
     }
 }
 ```
 
-Debería dar un **bad request** porque si bien el alumno se encuentra habilitado para realizar el peidido y aunque la vianda tiene stock esa vianda que esta pidiendo no es apta porque el alumno es celiaco.
+Debería dar un **bad request** porque el alumno celiaco, y si bien se encuentra habilitado, las viandas de tipo PIZZA con stock > 0 son unicamente las que no son para celiacos.  El mensaje debería ser "NO HAY STOCK DE PIZZA PARA CELIACOS"
 
 ### Ejemplo 5
 
@@ -314,8 +320,9 @@ Si se hicera el siguiente POST con este body
 {
     {
         "dni": 37535032,
-        "tipo": "VPZAP"
+        "tipo": "TARTA"
     }
 }
+```
 
-Debería dar un **bad request** porque si bien el alumno se encuentra habilitado para realizar el peidido y aunque la vianda es apta para celiacos no tiene stock disponible
+Debería dar un **bad request** porque el alumno celiaco, y si bien se encuentra habilitado,no existen viandas del tipo TARTA aptas para celiacos.
