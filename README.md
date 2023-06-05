@@ -14,7 +14,7 @@ Un alumno podrá generar un pedido de una vianda siempre y cuando se encuentre h
 
 - [x] el alumno se debe encontrar habiltiado para realizar el pedido
 - [x] la vianda se debe ajustar al tipo solicitado **TARTA, POLLO, PASTA, PIZZA, EMPANADAS**, y también debe ajustarse a la condición del alumno **si es celiaco o no** y tiene que tener stock disponible **(stock > 0)**
-- [x] si pedido es correcto y  es asignado al alumno, deben ocurrir dos cosas adicionales:
+- [x] si pedido es correcto y la vianda es asignada al alumno, deben ocurrir dos cosas adicionales:
 - 1. El stock de la vianda debe disminuir en 1 unidad.
 - 2. El alumno debe pasar a estar deshabilitado para impedir que pueda solcitar otra vianda.
 
@@ -59,17 +59,17 @@ En la registración de un nuevo alumnos _POST_ **/api/alumnos** hay que consider
 
 ## Viandas
 
-Realizar el endpoint **/api/viandas** que permita consultar el total de las viandas, más la creación y modificación y consulta de una vianda en particular a través de su código.
+Realizar el endpoint **/api/viandas** que permita consultar el total de las viandas, más la creación y smodificación y consulta de una vianda en particular a través de su código.
 
 * _GET_ **/api/viandas** - Recupera el array de viandas.
 * _GET_ **/api/viandas/:codigo** - Recupera la vianda a través del código que es pasado en el path de la URL como parámetro.
-* _PUT_ **/api/viandas/:codigo** - Permite la modificación unicamente de los atributos **aptoCeliaco y stock** de la vianda por medio del código que es pasado en el path de la URL como parámetro.
+* _PUT_ **/api/viandas/:codigo** - Permite la modificación unicamente de los atributos **aptoCeliaco, stock y descripcion** de la vianda por medio del código que es pasado en el path de la URL como parámetro.
 * _POST_ **/api/vianda** - Registra una nueva vianda,
 
 En la registración de una nueva vianda _POST_ **/api/viandas** hay que considerar:
 1. El código de vianda es un string de 5 caracteres y siempre debe comenzar con la letra 'V'.
 2. Validar que la vianda no se encuentre registrada previamente. La comprobación se debé realizar por el atributo código.
-3. El tipo de vianda solo puede ser uno de los valores disponibles. Los valores disponibles son: TARTA, POLLO, PASTA, PIZZA, EMPANADAS. Si se envía otro valor deberá retornarse **bad request**
+3. El tipo de vianda solo puede ser uno de los valores disponibles. Los valores disponibles son: **TARTA, POLLO, PASTA, PIZZA, EMPANADAS**. Si se envía otro valor deberá retornarse **bad request** tipo de vianda incorrecta.
 4. El **stock** debe ser siempre mayor o igual a 0.
 
 
@@ -97,15 +97,19 @@ Realizar el endpoint **/api/pedidos** que permita consultar el total de los pedi
 En la registración de un nuevo pedido _POST_ **/api/pedido** hay que considerar:
 
 1. el id (identeficador único del pedido) lo deberá calcular el sistema siguiendo una secuencia incremental.
-2. Registrar la fecha del pedido lo deberá calcular el sistema tomando la fecha actual. Ayuda: ```new Date().toISOString().slice(0, 10)```
-3. En el body se recibe el dni de alumno y en al respuesta se retornan todo los atributos del alumno menos el atributo **habiltiado**.
-4. el el body se recibé el tipo  de vianda **TARTA, POLLO, PASTA, PIZZA, EMPANADAS**, el sistema asigna la vianda que satisface las condiciones y ser retorna todos los atributos de la vianda menos el atributo **stock**
+2. Registrar la fecha del pedido lo deberá calcular el sistema tomando la fecha actual. **Ayuda:** 
+
+``` JavaScript
+new Date().toISOString().slice(0, 10)
+```
+3. En el body se recibe el dni de alumno y en al respuesta se retornan todo los atributos del alumno menos el atributo **habilitado**.
+4. el el body se recibé el tipo  de vianda **TARTA, POLLO, PASTA, PIZZA, EMPANADAS**,  el sistema asigna la vianda que satisface las condiciones y retornará todos los atributos de la vianda menos el atributo **stock**
 
 
 ## Lógica que debe implementar la creación de un pedido
 - [x] el alumno se debe encontrar habiltiado para realizar el pedido
 - [x] la vianda se debe ajustar al tipo solicitado **TARTA, POLLO, PASTA, PIZZA, EMPANADAS**, y también debe ajustarse a la condición del alumno **si es celiaco o no** y tiene que tener stock disponible **(stock > 0)**
-- [x] si pedido es correcto y  es asignado al alumno, deben ocurrir dos cosas adicionales:
+- [x] si pedido es correcto y la vianda es asignada al alumno, deben ocurrir dos cosas adicionales:
 - 1. El stock de la vianda debe disminuir en 1 unidad.
 - 2. El alumno debe pasar a estar deshabilitado para impedir que pueda solcitar otra vianda.
 
@@ -137,7 +141,7 @@ En la registración de un nuevo pedido _POST_ **/api/pedido** hay que considerar
     }
 ```
 
-La vianda deberá registrarse de acuerdo a las conidciones que fueron detalladas. Si existe algún error en los datos enviados (por ejemplo: el los tipos permitidos) o no es posible la creación del pedido el sistema deberá retornar el código correspondiente a un **bad request** indicando un mensajes descriptivo del error.
+La vianda deberá registrarse de acuerdo a las conidciones que fueron detalladas. Si existe algún error en los datos enviados por ejemplo: se envía un tipo de vianda incorrecto o no es posible la creación del pedido el sistema deberá retornar el código correspondiente a un **bad request** indicando un mensajes descriptivo del error.
 
 ## PUNTOS BONUS
 
@@ -145,6 +149,7 @@ Adicionalmente también se deberá poder buscar el último pedido realizado por 
 
 * _GET_ **/api/pedidos/search?nombre=XXXX** - Recupera la ultima el último pedido que realizo el alumno. En caso de no encontrar reservas deberá retornar "No encontrado"
 
+Otro punto adicion es que se permita devolver la vianda
 * _DELETE_ **/api/pedidos/:id** - Borra el pedido con el id pasado en el path de la URL como parámetro. Incrementa en una unidad la viana del pedido y pone habilitado a alumno.
 
 
